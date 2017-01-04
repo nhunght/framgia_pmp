@@ -1,0 +1,60 @@
+<div class="filters f-<%= name %> <%= "plist" if name == "project_name" %>" data-parent="<%= name %>" data-column="<%= name %>">
+  <% if sortable %>
+    <div>
+      <div class="sortable button-cancel" data-name="<%= name %>" data-value="asc">
+        <a class="sort-link">
+          <%= t("filters.sort_asc").html_safe %>
+        </a>
+      </div>
+      <div class="sortable button-cancel" data-name="<%= name %>" data-value="desc">
+        <a class="sort-link">
+          <%= t("filters.sort_desc").html_safe %>
+        </a>
+      </div>
+    </div>
+  <% end %>
+  <div class="divider"></div>
+  <div class="filter_actions">
+    <%= link_to t("filters.select_all"), "javascript:void(0)", class: "filter_select" %>
+    <%= link_to t("filters.clear"), "javascript:void(0)", class: "filter_clear" %>
+  </div>
+  <% if searchable %>
+    <div class="filter">
+      <input type="text" class="search_filter form-control input-sm" id="manager-search-<%= name %>"
+        placeholder="<%= t "filters.index.quick_search" %>" autocomplete="false" autofocus>
+        <label for="loading" class="fa fa-spinner fa-pulse quick-searching" rel="tooltip"
+          title="loading"></label>
+    </div>
+  <% end %>
+  <div class="divider"></div>
+  <div class="filter options">
+    <div class="option blank-option hidden">
+      <%= check_box_tag "#{name}", "",
+        @filter.nil? ? false : @filter.include?(""), id: "filter_#{name}_blank" %>
+      <%= label_tag "#{name}_blank", t("filters.show.blank"),
+        for: "filter_#{name}_blank" %>
+    </div>
+    <%# binding.pry %>
+    <% objects.each_with_index do |element, index| %>
+      <div class="option">
+        <div class="checkbox-opt" data-name="<%= element.try(value_field) %>">
+          <% precision = Settings.fields_decimal[name] || 0 %>
+          <%= check_box_tag "#{name}", number_with_precision(filter_selector_name(element, value_field),
+            precision: precision),
+            @filter.nil? ? false : @filter.include?(filter_selector_name(element, value_field).downcase),
+            id: "filter_#{index}_#{name}",
+            "data-project-id": "#{element.try(key_field)}" %>
+          <%= label_tag element, number_with_precision(filter_selector_name(element, value_field),
+            precision: precision),
+            for: "filter_#{index}_#{name}" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <div class="divider"></div>
+  <div class="buttons">
+    <%= link_to t("buttons.ok"), "javascript:void(0)",
+      class: "btn btn-primary button-filters btn-sm button-cancel" %>
+    <%= link_to t("buttons.cancel"), "javascript:void(0)", class: "btn btn-sm btn-default button-cancel" %>
+  </div>
+</div>

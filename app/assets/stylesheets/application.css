@@ -17,6 +17,7 @@
  *= require select2-bootstrap
  *= require admin/work_performances
  *= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
+ *= require filter_table
  *= require datepicker
  */
 

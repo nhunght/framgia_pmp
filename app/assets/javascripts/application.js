@@ -32,6 +32,9 @@
 //= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
 //= require bootstrap-datepicker
 //= require users
+//= require filter-data
+//= require filter-box
+//= require blank_option_filter
 //= sprints
 
 $(document).on("page:change", function(){
@@ -48,3 +51,12 @@ $(document).on("page:change", function(){
 
   $(".hide-flash").delay(2000).fadeOut("slow");
 });
+
+function resetOrder() {
+  var stt = 0;
+  var list_record = $('#list-records').find('.trow .stt:visible').not('.header').not('.sum');
+  $.each(list_record, function(){
+    stt++;
+    $(this).html(stt);
+  });
+}

@@ -2,9 +2,14 @@ class ProductBacklogsController < ApplicationController
   load_resource
   load_resource :project
 
+  include FilterData
+
+  before_action :load_filter, only: :index
+
   def index
     @sprints = @project.sprints
     @product_backlogs = @project.product_backlogs
+    @filter_data_user = @filter_service.user_filter_data
   end
 
   def create

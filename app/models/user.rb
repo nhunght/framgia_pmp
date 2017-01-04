@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
   has_many :project_members
   has_many :projects, through: :project_members
   has_many :work_performances, through: :tasks
+  has_many :filters, dependent: :destroy
 
   devise :database_authenticatable, :registerable, :recoverable,
     :rememberable, :trackable, :validatable

@@ -69,4 +69,17 @@ module ApplicationHelper
       admin_projects_path
     end
   end
+
+  def filter_selector_name element, value_field
+    return if element.nil?
+    if element.try(value_field).kind_of?(Date) || element.kind_of?(Date)
+      return (element.try(value_field)
+        .strftime(t "date.formats.default") rescue element.strftime(t "date.formats.default"))
+    end
+    element.try(value_field).strip rescue element.to_s.strip
+  end
+
+  def filter_title
+    @filter_service.is_on? ? t("filters.btn_off") : t("filters.btn_on")
+  end
 end

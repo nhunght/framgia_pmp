@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161228101510) do
+ActiveRecord::Schema.define(version: 20161230035559) do
 
   create_table "assignees", force: :cascade do |t|
     t.integer  "user_id",    limit: 4
@@ -22,6 +22,19 @@ ActiveRecord::Schema.define(version: 20161228101510) do
     t.datetime "updated_at",           null: false
     t.integer  "member_id",  limit: 4
   end
+
+  create_table "filters", force: :cascade do |t|
+    t.integer  "user_id",       limit: 4
+    t.integer  "filter_type",   limit: 4
+    t.text     "content",       limit: 65535
+    t.integer  "target_id",     limit: 4
+    t.boolean  "is_turn_on"
+    t.string   "target_params", limit: 255
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "filters", ["user_id"], name: "index_filters_on_user_id", using: :btree
 
   create_table "item_performances", force: :cascade do |t|
     t.integer  "performance_name", limit: 4
@@ -199,6 +212,7 @@ ActiveRecord::Schema.define(version: 20161228101510) do
   add_index "work_performances", ["phase_id"], name: "index_work_performances_on_phase_id", using: :btree
   add_index "work_performances", ["sprint_id"], name: "index_work_performances_on_sprint_id", using: :btree
 
+  add_foreign_key "filters", "users"
   add_foreign_key "log_works", "tasks"
   add_foreign_key "work_performances", "item_performances"
   add_foreign_key "work_performances", "master_sprints"

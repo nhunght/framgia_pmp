@@ -1,6 +1,9 @@
 <div class="container" id="product_backlogs"
   data-update-backlog="<%= can? :update, @product_backlogs.first %>">
   <div class="product_backlog">
+    <button id="btn-filter-on-off" title="Turn on filter" class="btn-filter-onoff-project btn btn-default btn-filter-off">
+          &nbsp;
+        </button>
     <%= form_for :product_backlog, html: {id: "product_backlog_form"}  do |f| %>
       <table class="product_backlog_table_scroll table table-bordered"
         id="product_backlogs">
@@ -8,13 +11,46 @@
           <tr>
             <th class="id">#</th>
             <th class="story-id"><%= t "product_backlog.index.id" %></th>
-            <th class="category"><%= t "product_backlog.index.category" %></th>
+            <th class="category">
+              <%= t "product_backlog.index.category" %>
+              <%#= link_to filter_datas_path(type: :category, filter_type: :product_backlogs),
+                remote: true,
+                class: "open-select",
+                data: {name: "f-category"} do %>
+                <!-- <i class="fa ic ic-filter category" data-type="category" data-filter="product_backlogs"></i> -->
+              <%# end %>
+              <i class="fa ic ic-filter category" data-type="category" data-filter="product_backlogs"></i>
+            </th>
             <th class="story"><%= t "product_backlog.index.story" %></th>
-            <th class="sprint"><%= t "product_backlog.index.sprint" %></th>
-            <th class="priority"><%= t "product_backlog.index.priority" %></th>
+            <th class="sprint">
+              <%= t "product_backlog.index.sprint" %>
+              <%= link_to filter_datas_path(type: :sprint, filter_type: :product_backlogs),
+                remote: true,
+                class: "open-select",
+                data: {name: "f-sprint"} do %>
+                <i class="fa ic ic-filter sprint"></i>
+              <% end %>
+            </th>
+            <th class="priority">
+              <%= t "product_backlog.index.priority" %>
+              <%= link_to filter_datas_path(type: :priority, filter_type: :product_backlogs),
+                remote: true,
+                class: "open-select",
+                data: {name: "f-priority"} do %>
+                <i class="fa ic ic-filter priority"></i>
+              <% end %>
+            </th>
             <th class="estimate"><%= t "product_backlog.index.estimate" %></th>
             <th class="actual"><%= t "product_backlog.index.actual" %></th>
-            <th class="remaining"><%= t "product_backlog.index.remaining" %></th>
+            <th class="remaining">
+              <%= t "product_backlog.index.remaining" %>
+              <%= link_to filter_datas_path(type: :remaining, filter_type: :product_backlogs),
+                remote: true,
+                class: "open-select",
+                data: {name: "f-remaining"} do %>
+                <i class="fa ic ic-filter remaining"></i>
+              <% end %>
+            </th>
             <% if can? :destroy, @product_backlogs.first %>
               <th class="action">
                 <i class="fa fa-trash fa-2x delete_icon delete-product-backlog" aria-hidden="true"
@@ -55,6 +91,16 @@
     <div class="row">
       <%= render "shared/category_tab", project: @project,
       active_tab: Settings.tabs.project_backlog, f: nil %>
+    </div>
+
+    <div id="filter" data-filter-data="<%= @filter_data_user %>"
+      data-type="<%= :product_backlogs %>" data-id="<%= current_user.id %>"
+      data-is-turn-on="<%= @filter_service.is_on? %>">
+    </div>
+
+    <div class="list-filters">
+      <div class="filter-form">
+      </div>
     </div>
   </div>
 </div>
